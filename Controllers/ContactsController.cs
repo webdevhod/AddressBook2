@@ -55,7 +55,7 @@ namespace AddressBook2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ZipCode")] Contact contact)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Email,Address1,Address2,City,State,ZipCode,Phone,ImageData,Created,Modified")] Contact contact)
         {
             if (ModelState.IsValid)
             {
@@ -87,7 +87,7 @@ namespace AddressBook2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ZipCode")] Contact contact)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Email,Address1,Address2,City,State,ZipCode,Phone,ImageData,Created,Modified")] Contact contact)
         {
             if (id != contact.Id)
             {
