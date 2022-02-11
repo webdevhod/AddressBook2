@@ -13,7 +13,12 @@ namespace AddressBook2.Services
 
         public string getImageAsString(byte[] fileData, string extension)
         {
-            return $"data:{extension};base64;{Convert.ToBase64String(fileData)}";
+            if(fileData == null)
+            {
+                return String.Empty;
+            }
+
+            return $"data:{extension};base64,{Convert.ToBase64String(fileData)}";
         }
     }
 }

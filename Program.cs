@@ -12,6 +12,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 });
 
 builder.Services.AddScoped<IImageService, BasicImageService>();
+builder.Services.AddScoped<IDateTimeService, DateTimeService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
