@@ -1,5 +1,4 @@
 ﻿@using AddressBook2.Services.Interfaces
-@using AddressBook2.Services
 @model IEnumerable<AddressBook2.Models.Contact>
 @inject IImageService _imageService
 @inject IDateTimeService _dateTimeService
@@ -44,20 +43,28 @@
                 @Html.DisplayNameFor(model => model.Phone)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.ImageData)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageType)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Created)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Modified)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ImageData)
+                @Html.DisplayNameFor(model => model.CreatedLong)
             </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
+                @*modelItem <= item to insert into parameter*@
                 @Html.DisplayFor(modelItem => item.FirstName)
             </td>
             <td>
@@ -85,13 +92,19 @@
                 @Html.DisplayFor(modelItem => item.Phone)
             </td>
             <td>
+                <img src="@_imageService.getImageAsString(item.ImageData, item.ImageType)" class="img-fluid" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ImageType)
+            </td>
+            <td>
                 @Html.Raw(_dateTimeService.dateTimeUtcToLocal(item.Created))
             </td>
             <td>
                 @Html.Raw(_dateTimeService.dateTimeUtcToLocal(item.Modified))
             </td>
             <td>
-                <img src="@_imageService.getImageAsString(item.ImageData, item.ImageType)" class="img-fluid" />
+                @Html.DisplayFor(modelItem => item.CreatedLong)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

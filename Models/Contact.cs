@@ -13,7 +13,8 @@ namespace AddressBook2.Models
         [Display(Name = "Last Name")]
         public String LastName { get; set; }
 
-        [NotMapped]
+        //[NotMapped]
+        // if there's no set AND get, then it's already NotMapped?
         public string FullName { get { return $"{FirstName} {LastName}"; } }
 
         [DataType(DataType.EmailAddress)]
@@ -37,17 +38,16 @@ namespace AddressBook2.Models
         public String Phone { get; set; }
 
         [NotMapped]
-        [Display(Name = "Image")]
         [DataType(DataType.Upload)]
         public IFormFile? ImageFile { get; set; }
 
-        [NotMapped]
-        public String? ImageType { get; set; }
 
         [Display(Name = "Image")]
         public byte[]? ImageData { get; set; }
+        public String? ImageType { get; set; }
 
         public DateTime Created { get; set; }
         public DateTime Modified { get; set; }
+        public long CreatedLong { get; set; }
     }
 }

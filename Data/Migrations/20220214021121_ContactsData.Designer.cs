@@ -12,14 +12,14 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AddressBook2.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220210023527_ImageFileAndDateTime")]
-    partial class ImageFileAndDateTime
+    [Migration("20220214021121_ContactsData")]
+    partial class ContactsData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("ProductVersion", "6.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -46,6 +46,9 @@ namespace AddressBook2.Data.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<long>("CreatedLong")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
@@ -56,6 +59,9 @@ namespace AddressBook2.Data.Migrations
 
                     b.Property<byte[]>("ImageData")
                         .HasColumnType("bytea");
+
+                    b.Property<string>("ImageType")
+                        .HasColumnType("text");
 
                     b.Property<string>("LastName")
                         .IsRequired()

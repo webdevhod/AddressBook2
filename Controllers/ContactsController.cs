@@ -9,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using AddressBook2.Data;
 using AddressBook2.Models;
 using AddressBook2.Services.Interfaces;
-using AddressBook2.Services;
 
 namespace AddressBook2.Controllers
 {
@@ -61,14 +60,17 @@ namespace AddressBook2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Email,Address1,Address2,City,State,ZipCode,Phone,ImageData,ImageFile,ImageType,Created,Modified")] Contact contact)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Email,Address1,Address2,City,State,ZipCode,Phone,ImageFile,ImageData,ImageType,Created,Modified,CreatedLong")] Contact contact)
         {
             if (ModelState.IsValid)
             {
-                contact.Created = DateTime.UtcNow;
-                contact.Modified = DateTime.UtcNow;
+                DateTime now = DateTime.UtcNow;
 
-                createImageModel(contact);
+                contact.Created = now;
+                contact.Modified = now;
+                contact.CreatedLong = now.ToFileTimeUtc();
+
+                setModelImage(contact);
 
                 _context.Add(contact);
                 await _context.SaveChangesAsync();
@@ -90,7 +92,6 @@ namespace AddressBook2.Controllers
             {
                 return NotFound();
             }
-
             return View(contact);
         }
 
@@ -99,7 +100,7 @@ namespace AddressBook2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Email,Address1,Address2,City,State,ZipCode,Phone,ImageData,ImageFile,ImageType,Created,Modified")] Contact contact)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Email,Address1,Address2,City,State,ZipCode,Phone,ImageFile,ImageData,ImageType,Created,Modified,CreatedLong")] Contact contact)
         {
             if (id != contact.Id)
             {
@@ -110,10 +111,10 @@ namespace AddressBook2.Controllers
             {
                 try
                 {
-                    //contact.Created = contact.Created.ToUniversalTime();
                     contact.Modified = DateTime.UtcNow;
+                    contact.Created = DateTime.FromFileTimeUtc(contact.CreatedLong);
 
-                    createImageModel(contact);
+                    setModelImage(contact);
 
                     _context.Update(contact);
                     await _context.SaveChangesAsync();
@@ -167,8 +168,7 @@ namespace AddressBook2.Controllers
         {
             return _context.Contact.Any(e => e.Id == id);
         }
-
-        private async void createImageModel(Contact contact)
+        private async void setModelImage(Contact contact)
         {
             if (contact.ImageFile != null)
             {
