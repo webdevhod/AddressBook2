@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     // handles both local database and Heroku connection
-    var connectionString = DataUtility.GetConnectionString(builder.Configuration);
+    var connectionString = DatabaseUtility.GetConnectionString(builder.Configuration);
     options.UseNpgsql(connectionString);
 });
 
